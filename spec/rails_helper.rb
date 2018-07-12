@@ -60,7 +60,7 @@ RSpec.configure do |config|
   config.include ErrorResponses
   config.include RequestSpecHelpers
 
-  # config.around(type: :request) do |example|
-  #   respond_without_detailed_exceptions(&example)
-  # end
+  config.around(type: :request) do |example|
+    respond_without_detailed_exceptions(&example)
+  end
 end

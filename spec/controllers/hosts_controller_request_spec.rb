@@ -75,17 +75,28 @@ RSpec.describe 'HostsController', type: :request do
       end
 
       it 'returns a 404 when the specified host does not exist' do
-
+        put host_path(12345)
+        expect(response.status).to eq(404)
       end
     end
 
     describe 'DELETE /host/{id}' do
       it 'returns a 200 when successfully deleting a host' do
+        host = Host.create(first_name: 'foo', last_name: 'bar')
 
+        get host_path(host.id)
+        expect(JSON.parse(response.body)['id']).to eq(host.id)
+
+        delete host_path(host.id)
+        expect(response.status).to eq(200)
+
+        get host_path(host.id)
+        expect(response.status).to eq (404)
       end
 
-      it 'returns a 400 when the specified host does not exist' do
-
+      it 'returns a 404 when the specified host does not exist' do
+        delete host_path(12345)
+        expect(response.status).to eq (404)
       end
     end
   end
