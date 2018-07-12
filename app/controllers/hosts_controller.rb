@@ -19,6 +19,19 @@ class HostsController < ApplicationController
     end
   end
 
+  def update
+    # if @host.nil?
+    #   head(404)
+    # end
+
+    @host.update(host_params)
+    head(200)
+  end
+
+  def show
+    render json: @host
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_host
