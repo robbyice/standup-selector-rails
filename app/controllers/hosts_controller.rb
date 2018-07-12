@@ -1,4 +1,5 @@
 class HostsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_host, only: [:show, :edit, :update, :destroy]
 
   # GET /hosts
@@ -9,9 +10,9 @@ class HostsController < ApplicationController
   end
 
   def create
-    @host = Host.new(host_params)
+    @host = @host.nil? ? Host.new(host_params) : @host
 
-    if @host.save
+        if @host.save
       head(200)
     else
       head(400)
@@ -26,6 +27,9 @@ class HostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def host_params
-      params.require(:host).permit(:first_name, :last_name)
+      params.require(:first_name)
+      params.require(:last_name)
+
+      params.permit(:first_name, :last_name)
     end
 end
